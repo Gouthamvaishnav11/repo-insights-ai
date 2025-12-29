@@ -1,0 +1,33 @@
+# Ignore Python compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore backend environment and virtual environments
+/backend/venv/
+/backend/backup/
+backend/.env
+
+
+
+# Ignore environment variables
+.env
+
+# Ignore backup folders
+backup/
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore logs
+*.log
+
+# Ignore IDE/editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+
