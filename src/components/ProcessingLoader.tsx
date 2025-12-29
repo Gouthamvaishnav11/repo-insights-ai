@@ -20,18 +20,45 @@ interface ProcessingLoaderProps {
 const ProcessingLoader = ({ onComplete }: ProcessingLoaderProps) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [stepProgress, setStepProgress] = useState(0);
+  const [analysisDone, setAnalysisDone] = useState(false);
 
+  // 🔹 Run backend analysis once
+  useEffect(() => {
+    const runAnalysis = async () => {
+      try {
+        const repoUrl = localStorage.getItem('repoUrl');
+        if (!repoUrl) return;
+
+        const res = await fetch('http://localhost:5000/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ repo_url: repoUrl }),
+        });
+
+        const data = await res.json();
+        localStorage.setItem('repoAnalysis', JSON.stringify(data));
+        setAnalysisDone(true);
+      } catch (error) {
+        console.error('Analysis failed', error);
+      }
+    };
+
+    runAnalysis();
+  }, []);
+
+  // 🔹 Step animation logic
   useEffect(() => {
     if (currentStep >= steps.length) {
-      onComplete();
+      if (analysisDone) onComplete();
       return;
     }
 
     const stepDuration = steps[currentStep].duration;
-    const progressInterval = setInterval(() => {
+
+    const interval = setInterval(() => {
       setStepProgress((prev) => {
         if (prev >= 100) {
-          clearInterval(progressInterval);
+          clearInterval(interval);
           setCurrentStep((s) => s + 1);
           return 0;
         }
@@ -39,15 +66,15 @@ const ProcessingLoader = ({ onComplete }: ProcessingLoaderProps) => {
       });
     }, stepDuration / 50);
 
-    return () => clearInterval(progressInterval);
-  }, [currentStep, onComplete]);
+    return () => clearInterval(interval);
+  }, [currentStep, analysisDone, onComplete]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] px-6">
-      {/* Main loader */}
+      {/* Loader */}
       <div className="relative mb-12">
         <div className="w-24 h-24 rounded-full border-4 border-muted">
-          <div 
+          <div
             className="w-full h-full rounded-full border-4 border-t-primary border-r-secondary border-b-accent border-l-transparent animate-spin"
             style={{ animationDuration: '1.5s' }}
           />
@@ -71,7 +98,7 @@ const ProcessingLoader = ({ onComplete }: ProcessingLoaderProps) => {
               }`}
             >
               <div
-                className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
+                className={`w-10 h-10 rounded-full flex items-center justify-center ${
                   isCompleted
                     ? 'bg-score-success'
                     : isCurrent
@@ -87,10 +114,12 @@ const ProcessingLoader = ({ onComplete }: ProcessingLoaderProps) => {
                   <span className="text-sm text-muted-foreground">{index + 1}</span>
                 )}
               </div>
+
               <div className="flex-1">
                 <p className={`font-medium ${isCurrent ? 'text-foreground' : 'text-muted-foreground'}`}>
                   {step.label}
                 </p>
+
                 {isCurrent && (
                   <div className="mt-2 h-1 bg-muted rounded-full overflow-hidden">
                     <div

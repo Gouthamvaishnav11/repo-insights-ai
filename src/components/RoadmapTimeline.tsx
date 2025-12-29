@@ -1,10 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ChevronDown, ChevronUp, Clock, Target, Lightbulb } from 'lucide-react';
 
 interface Task {
   title: string;
   description: string;
-  tools: string[];
 }
 
 interface TimelineSection {
@@ -14,76 +13,52 @@ interface TimelineSection {
   tasks: Task[];
 }
 
-const timelineData: TimelineSection[] = [
-  {
-    period: 'Short-Term (1-2 weeks)',
-    icon: Clock,
-    color: 'from-primary to-primary/80',
-    tasks: [
-      {
-        title: 'Add comprehensive README documentation',
-        description: 'A well-documented README increases project credibility and helps others understand your work.',
-        tools: ['Markdown', 'shields.io badges'],
-      },
-      {
-        title: 'Implement unit tests for core functions',
-        description: 'Testing ensures code reliability and demonstrates professional development practices.',
-        tools: ['Jest', 'React Testing Library'],
-      },
-    ],
-  },
-  {
-    period: 'Mid-Term (1-2 months)',
-    icon: Target,
-    color: 'from-secondary to-secondary/80',
-    tasks: [
-      {
-        title: 'Set up CI/CD pipeline',
-        description: 'Automated workflows improve code quality and deployment consistency.',
-        tools: ['GitHub Actions', 'Docker'],
-      },
-      {
-        title: 'Add TypeScript strict mode',
-        description: 'Stricter typing catches more bugs and improves maintainability.',
-        tools: ['TypeScript', 'ESLint'],
-      },
-    ],
-  },
-  {
-    period: 'Long-Term (3+ months)',
-    icon: Lightbulb,
-    color: 'from-accent to-accent/80',
-    tasks: [
-      {
-        title: 'Implement performance monitoring',
-        description: 'Real-time monitoring helps identify and fix production issues quickly.',
-        tools: ['Sentry', 'LogRocket'],
-      },
-      {
-        title: 'Create contribution guidelines',
-        description: 'Clear guidelines encourage community contributions and maintain code quality.',
-        tools: ['CONTRIBUTING.md', 'Issue templates'],
-      },
-    ],
-  },
-];
+interface RoadmapTimelineProps {
+  roadmap: {
+    short_term: Task[];
+    mid_term: Task[];
+    long_term: Task[];
+  };
+}
 
-const RoadmapTimeline = () => {
+const RoadmapTimeline = ({ roadmap }: RoadmapTimelineProps) => {
   const [expandedSections, setExpandedSections] = useState<number[]>([0]);
+  const [timelineData, setTimelineData] = useState<TimelineSection[]>([]);
+
+  useEffect(() => {
+    if (roadmap) {
+      setTimelineData([
+        {
+          period: 'Short-Term (1-2 weeks)',
+          icon: Clock,
+          color: 'from-primary to-primary/80',
+          tasks: roadmap.short_term,
+        },
+        {
+          period: 'Mid-Term (1-2 months)',
+          icon: Target,
+          color: 'from-secondary to-secondary/80',
+          tasks: roadmap.mid_term,
+        },
+        {
+          period: 'Long-Term (3+ months)',
+          icon: Lightbulb,
+          color: 'from-accent to-accent/80',
+          tasks: roadmap.long_term,
+        },
+      ]);
+    }
+  }, [roadmap]);
 
   const toggleSection = (index: number) => {
     setExpandedSections((prev) =>
-      prev.includes(index)
-        ? prev.filter((i) => i !== index)
-        : [...prev, index]
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
     );
   };
 
   return (
     <div className="relative">
-      {/* Timeline line */}
       <div className="timeline-line" />
-
       <div className="space-y-8">
         {timelineData.map((section, sectionIndex) => {
           const isExpanded = expandedSections.includes(sectionIndex);
@@ -125,17 +100,7 @@ const RoadmapTimeline = () => {
                         className="p-4 rounded-lg bg-muted/30 border border-border/50 hover:border-primary/30 transition-colors"
                       >
                         <h4 className="font-medium text-foreground mb-2">{task.title}</h4>
-                        <p className="text-sm text-muted-foreground mb-3">{task.description}</p>
-                        <div className="flex flex-wrap gap-2">
-                          {task.tools.map((tool, toolIndex) => (
-                            <span
-                              key={toolIndex}
-                              className="px-2 py-1 text-xs rounded-full bg-primary/10 text-primary border border-primary/20"
-                            >
-                              {tool}
-                            </span>
-                          ))}
-                        </div>
+                        <p className="text-sm text-muted-foreground">{task.description}</p>
                       </div>
                     ))}
                   </div>

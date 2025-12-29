@@ -17,9 +17,31 @@ const About = () => {
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
               About <span className="gradient-text">RepoLens</span>
             </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Empowering developers to write better code through AI-powered analysis and personalized guidance
-            </p>
+<div className="max-w-2xl mx-auto text-base md:text-lg text-muted-foreground leading-relaxed text-left space-y-6">
+  <p>
+    RepoLens is an AI-powered GitHub repository evaluation system designed to
+    help students and early-career developers understand the real quality of
+    their coding projects.
+  </p>
+
+  <p>
+    In today’s hiring process, GitHub repositories act as a developer’s
+    portfolio. However, most students do not receive clear, structured, and
+    honest feedback on how their repositories are viewed by recruiters or
+    senior engineers.
+  </p>
+
+  <p>
+    RepoLens bridges this gap by analyzing public GitHub repositories and
+    transforming raw repository data into meaningful insights.
+  </p>
+
+  <p>
+    RepoLens works like an AI coding mentor, reflecting both the strengths
+    and weaknesses of a project and guiding developers on exactly what to
+    improve next.
+  </p>
+</div>
           </div>
 
           {/* Mission */}
@@ -30,12 +52,19 @@ const About = () => {
               </div>
               <h2 className="text-2xl font-bold text-foreground">Our Mission</h2>
             </div>
-            <p className="text-muted-foreground leading-relaxed text-lg">
-              Many developers struggle to identify areas of improvement in their code repositories.
-              Traditional code reviews can be time-consuming, subjective, and often lack actionable
-              insights. RepoLens bridges this gap by providing instant, objective, and comprehensive
-              analysis of any GitHub repository using advanced AI technology.
-            </p>
+            <div className="max-w-2xl mx-auto text-left">
+  <p className="text-muted-foreground leading-relaxed text-lg">
+    Evaluating a GitHub repository is not just about counting commits or
+    checking if the code runs. Developers often miss deeper insights related
+    to code quality, structure, documentation, and maintainability.
+  </p>
+
+  <p className="text-muted-foreground leading-relaxed text-lg mt-4">
+    RepoLens solves this challenge by using AI-driven analysis to examine
+    repositories from a recruiter and industry perspective, delivering clear
+    feedback, quality scores, and improvement suggestions in seconds.
+  </p>
+</div>
           </div>
 
           {/* Features Grid */}

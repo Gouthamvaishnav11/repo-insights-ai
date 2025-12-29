@@ -11,7 +11,6 @@ const ScoreRing = ({ score, size = 200, strokeWidth = 12 }: ScoreRingProps) => {
   
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
-  const offset = circumference - (animatedScore / 100) * circumference;
 
   const getScoreColor = () => {
     if (score >= 80) return 'hsl(var(--score-gold))';
@@ -32,29 +31,27 @@ const ScoreRing = ({ score, size = 200, strokeWidth = 12 }: ScoreRingProps) => {
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      const increment = score / 50;
-      const interval = setInterval(() => {
-        setAnimatedScore((prev) => {
-          if (prev >= score) {
-            clearInterval(interval);
-            return score;
-          }
-          return Math.min(prev + increment, score);
-        });
-      }, 20);
-      return () => clearInterval(interval);
-    }, 300);
-    return () => clearTimeout(timer);
+    const increment = score / 50;
+    const interval = setInterval(() => {
+      setAnimatedScore(prev => {
+        if (prev >= score) {
+          clearInterval(interval);
+          return score;
+        }
+        return Math.min(prev + increment, score);
+      });
+    }, 20);
+
+    return () => clearInterval(interval);
   }, [score]);
 
+  const offset = circumference - (animatedScore / 100) * circumference;
   const badge = getBadge();
 
   return (
     <div className="flex flex-col items-center">
       <div className="relative" style={{ width: size, height: size }}>
-        <svg width={size} height={size} className="score-ring">
-          {/* Background circle */}
+        <svg width={size} height={size}>
           <circle
             cx={size / 2}
             cy={size / 2}
@@ -63,7 +60,6 @@ const ScoreRing = ({ score, size = 200, strokeWidth = 12 }: ScoreRingProps) => {
             stroke="hsl(var(--muted))"
             strokeWidth={strokeWidth}
           />
-          {/* Progress circle */}
           <circle
             cx={size / 2}
             cy={size / 2}
@@ -75,19 +71,15 @@ const ScoreRing = ({ score, size = 200, strokeWidth = 12 }: ScoreRingProps) => {
             strokeDasharray={circumference}
             strokeDashoffset={offset}
             className="transition-all duration-1000 ease-out"
-            style={{
-              filter: `drop-shadow(0 0 10px ${getScoreColor()})`,
-            }}
+            style={{ filter: `drop-shadow(0 0 10px ${getScoreColor()})` }}
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-5xl font-bold text-foreground">
-            {Math.round(animatedScore)}
-          </span>
+          <span className="text-5xl font-bold text-foreground">{Math.round(animatedScore)}</span>
           <span className="text-sm text-muted-foreground mt-1">out of 100</span>
         </div>
       </div>
-      
+
       <div className="mt-6 text-center">
         <p className="text-xl font-semibold text-foreground mb-2">{getSkillLevel()}</p>
         <div className={`inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r ${badge.color} text-background font-medium text-sm shadow-lg`}>

@@ -1,34 +1,48 @@
-import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle, AlertTriangle, TrendingUp } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import AnimatedBackground from '@/components/AnimatedBackground';
-import Navbar from '@/components/Navbar';
-import ScoreRing from '@/components/ScoreRing';
-
-const mockResults = {
-  score: 72,
-  strengths: [
-    'Clean code structure and organization',
-    'Good use of TypeScript for type safety',
-    'Consistent coding style throughout',
-  ],
-  weaknesses: [
-    'Missing comprehensive test coverage',
-    'Documentation could be improved',
-    'No CI/CD pipeline configured',
-  ],
-  summary:
-    'This repository demonstrates solid fundamentals with clean code organization and good TypeScript usage. However, there is room for improvement in testing coverage and documentation. Adding automated testing and CI/CD would significantly enhance the project quality.',
-  breakdown: [
-    { label: 'Code Quality', score: 78 },
-    { label: 'Documentation', score: 55 },
-    { label: 'Testing', score: 42 },
-    { label: 'Git Practices', score: 85 },
-    { label: 'Real-World Relevance', score: 80 },
-  ],
-};
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { ArrowRight, CheckCircle, AlertTriangle, TrendingUp } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import AnimatedBackground from "@/components/AnimatedBackground";
+import Navbar from "@/components/Navbar";
+import ScoreRing from "@/components/ScoreRing";
+import axios from "axios";
 
 const Results = () => {
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchResults = async () => {
+      try {
+        // Call your backend API
+        const res = await axios.get("http://127.0.0.1:5000/api/results");
+        setResult(res.data);
+      } catch (err) {
+        console.error("Error fetching results:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchResults();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-lg font-medium">Loading analysis...</p>
+      </div>
+    );
+  }
+
+  if (!result) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-lg font-medium text-red-500">No results found.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen relative">
       <AnimatedBackground />
@@ -43,18 +57,16 @@ const Results = () => {
           <div className="grid lg:grid-cols-2 gap-8">
             {/* Score Section */}
             <div className="glass-card p-8 flex flex-col items-center justify-center animate-fade-in">
-              <ScoreRing score={mockResults.score} />
+              <ScoreRing score={result.score} />
             </div>
 
             {/* AI Summary */}
-            <div className="glass-card p-8 animate-fade-in" style={{ animationDelay: '100ms' }}>
+            <div className="glass-card p-8 animate-fade-in" style={{ animationDelay: "100ms" }}>
               <h2 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
                 <TrendingUp className="w-5 h-5 text-primary" />
                 AI Summary
               </h2>
-              <p className="text-muted-foreground leading-relaxed mb-6">
-                {mockResults.summary}
-              </p>
+              <p className="text-muted-foreground leading-relaxed mb-6">{result.summary}</p>
 
               {/* Strengths */}
               <div className="mb-6">
@@ -63,7 +75,7 @@ const Results = () => {
                   Strengths
                 </h3>
                 <ul className="space-y-2">
-                  {mockResults.strengths.map((strength, index) => (
+                  {result.strengths.map((strength, index) => (
                     <li
                       key={index}
                       className="text-sm text-muted-foreground pl-4 border-l-2 border-score-success/30"
@@ -81,7 +93,7 @@ const Results = () => {
                   Areas for Improvement
                 </h3>
                 <ul className="space-y-2">
-                  {mockResults.weaknesses.map((weakness, index) => (
+                  {result.weaknesses.map((weakness, index) => (
                     <li
                       key={index}
                       className="text-sm text-muted-foreground pl-4 border-l-2 border-score-warning/30"
@@ -95,10 +107,10 @@ const Results = () => {
           </div>
 
           {/* Score Breakdown */}
-          <div className="glass-card p-8 mt-8 animate-fade-in" style={{ animationDelay: '200ms' }}>
+          <div className="glass-card p-8 mt-8 animate-fade-in" style={{ animationDelay: "200ms" }}>
             <h2 className="text-xl font-semibold text-foreground mb-6">Score Breakdown</h2>
             <div className="space-y-4">
-              {mockResults.breakdown.map((item, index) => (
+              {result.breakdown.map((item, index) => (
                 <div key={index} className="flex items-center gap-4">
                   <span className="text-sm text-muted-foreground w-40">{item.label}</span>
                   <div className="flex-1 h-3 bg-muted rounded-full overflow-hidden">
@@ -119,7 +131,10 @@ const Results = () => {
           </div>
 
           {/* CTA */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12 animate-fade-in" style={{ animationDelay: '300ms' }}>
+          <div
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12 animate-fade-in"
+            style={{ animationDelay: "300ms" }}
+          >
             <Link to="/roadmap">
               <Button variant="hero" size="lg">
                 View Improvement Roadmap

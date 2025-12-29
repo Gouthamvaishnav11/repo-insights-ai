@@ -62,10 +62,7 @@ const HowItWorks = () => {
                   <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-lg">
                     <step.icon className="w-6 h-6 text-primary-foreground" />
                   </div>
-                  <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-medium text-muted-foreground">
-                    Step {index + 1}
-                  </span>
-                </div>
+                 </div>
 
                 {/* Spacer for alternating layout */}
                 <div className="flex-1 hidden md:block" />

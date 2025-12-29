@@ -1,11 +1,47 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import Navbar from '@/components/Navbar';
 import RoadmapTimeline from '@/components/RoadmapTimeline';
+import axios from 'axios';
 
 const Roadmap = () => {
+  const [roadmap, setRoadmap] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchRoadmap = async () => {
+      try {
+        const res = await axios.get('http://127.0.0.1:5000/api/roadmap');
+        setRoadmap(res.data);
+      } catch (err) {
+        console.error('Error fetching roadmap:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRoadmap();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-lg font-medium">Loading roadmap...</p>
+      </div>
+    );
+  }
+
+  if (!roadmap) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-lg font-medium text-red-500">No roadmap found.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen relative">
       <AnimatedBackground />
@@ -25,11 +61,14 @@ const Roadmap = () => {
 
           {/* Timeline */}
           <div className="animate-fade-in" style={{ animationDelay: '100ms' }}>
-            <RoadmapTimeline />
+            <RoadmapTimeline roadmap={roadmap} />
           </div>
 
           {/* Navigation */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12 animate-fade-in" style={{ animationDelay: '200ms' }}>
+          <div
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12 animate-fade-in"
+            style={{ animationDelay: '200ms' }}
+          >
             <Link to="/results">
               <Button variant="glass" size="lg">
                 <ArrowLeft className="w-5 h-5" />

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Mail, MessageSquare, Send, User, Github, Twitter, Linkedin, Clock, Zap, Shield, HelpCircle, ChevronDown } from 'lucide-react';
+import { Mail, MessageSquare, Send, User, Github, Twitter, Linkedin, Clock, Zap, Shield, HelpCircle, ChevronDown ,Phone} from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import { Button } from '@/components/ui/button';
@@ -52,22 +52,22 @@ const Contact = () => {
       title: "Email Us",
       description: "Get a response within 24 hours",
       action: "hello@repolens.dev",
-      href: "mailto:hello@repolens.dev",
+      href: "mailto:dev.repolens@gmail.com ",
     },
     {
       icon: Github,
       title: "GitHub Discussions",
       description: "Join the community conversation",
       action: "Open Discussions",
-      href: "https://github.com/repolens/discussions",
+      href: "https://github.com/devrepolens-coder",
     },
     {
-      icon: Twitter,
-      title: "Twitter / X",
-      description: "Follow us for updates",
-      action: "@RepoLens",
-      href: "https://twitter.com/repolens",
-    },
+  icon: Phone,
+  title: "Phone",
+  description: "Call us for quick support",
+  action: "+91 8073785320",
+  href: "tel:+918073785320",
+},
   ];
 
   const features = [
@@ -294,13 +294,14 @@ const Contact = () => {
                     <Github className="w-5 h-5" />
                   </a>
                   <a
-                    href="https://twitter.com/repolens"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-12 h-12 rounded-xl bg-muted/50 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-colors"
-                  >
-                    <Twitter className="w-5 h-5" />
-                  </a>
+  href="mailto:contact@repolens.ai"
+  aria-label="Email RepoLens"
+  title="Email RepoLens"
+  className="w-12 h-12 rounded-xl bg-muted/50 flex items-center justify-center
+             hover:bg-primary/20 hover:text-primary transition-all hover:scale-105"
+>
+  <Mail className="w-5 h-5" />
+</a>
                   <a
                     href="https://linkedin.com/company/repolens"
                     target="_blank"

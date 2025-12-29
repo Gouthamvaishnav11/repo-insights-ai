@@ -19,6 +19,7 @@ const Analyze = () => {
   const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setUrl(value);
+
     if (value.length > 0) {
       setIsValid(validateGitHubUrl(value));
     } else {
@@ -26,15 +27,36 @@ const Analyze = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isValid) return;
 
     setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
+
+    try {
+      const response = await fetch('http://localhost:5000/api/analyze', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          repo_url: url,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to analyze repository');
+      }
+
+      // Analysis success → move to processing page
       navigate('/processing', { state: { repoUrl: url } });
-    }, 500);
+
+    } catch (error) {
+      console.error('Analysis error:', error);
+      alert('Failed to analyze repository. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -62,6 +84,7 @@ const Analyze = () => {
                 <div className="absolute left-4 top-1/2 -translate-y-1/2">
                   <Github className="w-5 h-5 text-muted-foreground" />
                 </div>
+
                 <input
                   type="text"
                   placeholder="https://github.com/username/repository"
@@ -75,6 +98,7 @@ const Analyze = () => {
                       : 'border-score-danger focus:border-score-danger'
                   }`}
                 />
+
                 {isValid !== null && (
                   <div className="absolute right-4 top-1/2 -translate-y-1/2">
                     {isValid ? (
