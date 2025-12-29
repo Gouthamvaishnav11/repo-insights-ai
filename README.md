@@ -1,73 +1,208 @@
-# Welcome to your Lovable project
 
-## Project info
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+# RepoLens 🔍  
+### AI-Powered GitHub Repository Evaluation & Developer Profiling System
 
-## How can I edit this code?
+## 📌 Project Theme
+**AI + Code Analysis + Developer Profiling**
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+## 🚀 Overview
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+In modern hiring processes, a developer’s **GitHub repositories act as their professional portfolio**.  
+However, many students and early developers face key challenges:
 
-Changes made via Lovable will be committed automatically to this repo.
+- ❌ They do not understand **how recruiters evaluate GitHub repositories**
+- ❌ They receive **no structured feedback** on code quality or project organization
+- ❌ They lack a **clear roadmap** to improve their projects
 
-**Use your preferred IDE**
+**RepoLens** solves this problem by acting as an **AI-powered coding mentor** that evaluates a public GitHub repository and transforms it into:
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- 📊 **A Quantitative Score (0–100)**
+- 🧾 **A Human-Readable Evaluation Summary**
+- 🛣️ **A Personalized Improvement Roadmap**
+- 🤖 **AI-Based Code Review using LLMs**
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+---
 
-Follow these steps:
+## 🎯 What RepoLens Does
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+The user simply pastes a **public GitHub repository URL**, and RepoLens automatically:
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+1. Fetches repository data using GitHub APIs  
+2. Analyzes code, structure, commits, and documentation  
+3. Evaluates the project across multiple quality dimensions  
+4. Generates:
+   - Overall Score & Skill Level
+   - Written Code Review Summary
+   - Personalized Improvement Roadmap
 
-# Step 3: Install the necessary dependencies.
-npm i
+RepoLens bridges the gap between **student projects** and **industry expectations**.
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+---
 
-**Edit a file directly in GitHub**
+## 🧠 System Architecture
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Step 1: Input Layer
+User provides a public GitHub repository URL.
 
-**Use GitHub Codespaces**
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Step 2: Repository Data Fetching
+Using the **GitHub REST API**, RepoLens extracts:
 
-## What technologies are used for this project?
+- Repository metadata
+- File & folder structure
+- Programming languages used
+- Commit history & frequency
+- README & documentation quality
+- Presence of test files
+- Branching information
 
-This project is built with:
+📌 **Why this matters:**  
+This data serves as the factual foundation for accurate and fair evaluation.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+---
 
-## How can I deploy this project?
+### Step 3: Code & Project Analysis Engine
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+This is the **core intelligence layer** of RepoLens.
 
-## Can I connect a custom domain to my Lovable project?
+#### A. Code Quality Analysis
+- Lines of Code (LOC)
+- Basic cyclomatic complexity
+- Naming conventions
+- File size & modularity
+- Presence of linting configurations
 
-Yes, you can!
+#### B. Project Structure Analysis
+- Logical folder separation
+- Detection of MVC or layered architecture
+- Separation of config and source code
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+#### C. Documentation Analysis
+- README presence
+- Key sections:
+  - Project Overview
+  - Installation
+  - Usage
+  - Tech Stack
+- Documentation clarity & completeness score
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+#### D. Testing & Maintainability
+- Presence of test directories (`tests/`, `__tests__/`)
+- Unit vs integration test detection
+- Basic test coverage inference
+
+#### E. Version Control Practices
+- Commit frequency & consistency
+- Meaningful commit messages
+- Branch usage
+- Pull request references (if available)
+
+#### F. Real-World Applicability
+- Clear problem statement
+- Practical use-case detection
+- Reusability & scalability indicators
+
+---
+
+## 📊 Scoring System
+
+Each evaluation dimension carries a weighted score:
+
+| Dimension               | Weight |
+|------------------------|--------|
+| Code Quality            | 25%    |
+| Project Structure       | 15%    |
+| Documentation           | 15%    |
+| Testing                 | 15%    |
+| Git Practices           | 15%    |
+| Real-World Relevance    | 15%    |
+
+### 🏆 Final Output Includes
+- **Score:** 0–100
+- **Skill Level:** Beginner / Intermediate / Advanced
+- **Badge:** Bronze / Silver / Gold
+
+---
+
+## 📝 AI-Generated Summary
+
+RepoLens generates a **mentor-like, human-readable summary** using rule-based logic combined with NLP and LLM integration.
+
+**Example Output:**
+> “The project demonstrates clean modular code and consistent commits; however, documentation and test coverage are limited. Improving README clarity and adding unit tests would significantly enhance maintainability.”
+
+📌 This ensures feedback feels **constructive, supportive, and actionable**.
+
+---
+
+## 🛣️ Personalized Improvement Roadmap
+
+Based on identified gaps, RepoLens generates a **step-by-step improvement plan**.
+
+### 🔹 Short-Term Improvements
+- Add a structured README with setup and usage instructions
+- Refactor large files into modular components
+
+### 🔹 Mid-Term Improvements
+- Write unit tests using frameworks such as PyTest or Jest
+- Integrate GitHub Actions for Continuous Integration (CI)
+
+### 🔹 Long-Term Improvements
+- Improve overall project architecture
+- Add scalability features
+- Enhance code documentation and maintainability
+
+This roadmap acts as an **AI-driven mentorship guide**, not generic advice.
+
+---
+
+## 🎯 Project Goal
+
+The primary goal of **RepoLens** is to develop an **intelligent AI-based system** that mirrors how recruiters evaluate GitHub repositories by analyzing:
+
+- Code Quality  
+- Project Structure  
+- Documentation  
+- Testing Practices  
+- Version Control Habits  
+
+These insights are transformed into a **meaningful score**, a **human-readable summary**, and a **personalized improvement roadmap**, enabling developers to **continuously improve their skills and projects**.
+
+---
+
+## 💡 Who Is This For?
+
+- 🎓 Students & Beginners
+- 💼 Job Seekers
+- 🧑‍💻 Self-Taught Developers
+- 🚀 Hackathon Participants
+
+---
+
+## 🔮 Future Enhancements
+
+- Multi-language static code analysis
+- Resume-ready GitHub score export
+- Recruiter dashboard view
+- Historical progress tracking
+
+---
+
+## 🛠️ Tech Stack (Example)
+- Backend: Python / Flask
+- APIs: GitHub REST API
+- AI: LLM Integration (OpenAI / similar)
+- Frontend: React / Tilwind
+- Database: SQLite / PostgreSQL
+
+---
+
+## 📄 License
+This project is developed for academic and learning purposes.
+
+---
+
+### ⭐ RepoLens – Turning GitHub Repositories into Career-Ready Portfolios
